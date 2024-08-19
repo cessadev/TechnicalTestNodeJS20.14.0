@@ -16,5 +16,5 @@ COPY . .
 # Expon el puerto que utilizará la aplicación
 EXPOSE 3000
 
-# Comando para iniciar la aplicación
-CMD ["npm", "run", "dev"]
+# Ejecuta el script de inicialización de la base de datos y luego inicia la aplicación
+CMD ["sh", "-c", "npm run init-db && npm run dev"]
