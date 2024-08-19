@@ -1,7 +1,8 @@
-import mongoose from 'mongoose';
+import app from './app';
+import "dotenv/config";
 
-const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/databaseextra';
+const PORT = process.env.PORT || 3001;
 
-mongoose.connect(mongoURI)
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.log(err));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
