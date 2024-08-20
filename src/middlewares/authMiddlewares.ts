@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import "dotenv/config";
 import { Request, Response, NextFunction } from 'express';
+import { CustomRequest, CustomResponse } from '../types/types';
 
-const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const authMiddleware = (req: CustomRequest, res: CustomResponse, next: NextFunction) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {

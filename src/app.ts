@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import connectDB from './config/database'; // Asegúrate de que este sea el camino correcto a tu archivo database.ts
+import router from './routes/index.routes';
 
 const app = express();
 
@@ -15,13 +16,7 @@ app.use(morgan('combined'));
 app.use(express.json()); // Middleware para parsear JSON
 
 // Rutas
-const routerExample = express.Router(); // Crea un router para las rutas de usuarios
-
-routerExample.get('/', (req: Request, res: Response) => {
-  res.send('WELCOME!');
-});
-
-app.use('/', routerExample);
+app.use('/api', router);
 
 // Manejo de errores no encontrados
 app.use((req: Request, res: Response, next: NextFunction) => {
