@@ -1,27 +1,33 @@
 import { Request, Response } from 'express';
 import { TaskModel } from '../models/task.models';
-import { TeamModel } from '../models/team.models';
+import { createTaskForTeam } from '../services/task.services';
 
-export const createTask = async (req: Request, res: Response) => {
+export const getAllTasks = async (req: Request, res: Response) => {
+  // TODO: Pasar lógica al servicio
   try {
-    const { title, description, status, assignedTo } = req.body;
-    const { teamId } = req.params;
-
-    const team = await TeamModel.findById(teamId);
-    if (!team) {
-      return res.status(404).json({ message: 'Team not found' });
-    }
-
-    const task = new TaskModel({ title, description, status, team: teamId, assignedTo });
-    await task.save();
-
-    res.status(201).json({ message: 'Task created successfully', task });
+    const tasks = await TaskModel.find().populate('team assignedTo', 'name email');
+    res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
 };
 
+export const createTask = async (req: Request, res: Response) => {
+  try {
+      const teamId = req.params.teamId;
+      const taskData = req.body;
+
+      const task = await createTaskForTeam(teamId, taskData);
+
+      res.status(201).json(task);
+  } catch (error) {
+    const errorMessage = (error as Error).message;
+    res.status(400).json({ message: 'Error creating task', error: errorMessage });
+  }
+};
+
 export const updateTask = async (req: Request, res: Response) => {
+  // TODO: Pasar lógica al servicio
   try {
     const { taskId } = req.params;
     const { status } = req.body;

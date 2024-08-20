@@ -32,7 +32,7 @@ async function initializeDatabase() {
         await team.save();
 
         // Sample Task
-        const task = new TaskModel({ title: 'Setup Project', description: 'Initialize the project repo', status: 'Pendiente', team: team._id, assignedTo: [user1._id] });
+        const task = new TaskModel({ title: 'Setup Project', description: 'Initialize the project repo', status: 'Pending', team: team._id, assignedTo: [user1._id] });
         await task.save();
 
         console.log('Sample data inserted successfully!');

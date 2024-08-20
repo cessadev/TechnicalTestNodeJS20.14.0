@@ -3,6 +3,15 @@ import { TeamModel } from "../models/team.models";
 import { UserModel } from "../models/user.models";
 import { Schema } from "mongoose";
 
+export const getAllTeams = async (req: Request, res: Response) => {
+  try {
+    const teams = await TeamModel.find().populate('members', 'name email');
+    res.json(teams);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
 export const createTeam = async (req: Request, res: Response) => {
   try {
     const { name, members } = req.body;

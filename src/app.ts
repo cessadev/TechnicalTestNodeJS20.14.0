@@ -16,7 +16,7 @@ app.use(morgan('combined'));
 app.use(express.json()); // Middleware para parsear JSON
 
 // Rutas
-app.use('/api', router);
+app.use('/api/v1', router);
 
 // Manejo de errores no encontrados
 app.use((req: Request, res: Response, next: NextFunction) => {

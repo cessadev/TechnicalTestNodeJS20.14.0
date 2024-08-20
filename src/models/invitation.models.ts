@@ -1,5 +1,11 @@
-import { model, Schema } from "mongoose";
-import { IInvitation } from "./types/invitation.types";
+import { model, Schema, Document } from "mongoose";
+
+export interface IInvitation extends Document {
+  email: string;
+  team: Schema.Types.ObjectId; // Referencia al equipo al que se invita
+  invitedBy: Schema.Types.ObjectId; // Referencia al usuario que envió la invitación
+  status: "Pendiente" | "Aceptada" | "Rechazada";
+}
 
 const InvitationSchema = new Schema<IInvitation>({
   email: {

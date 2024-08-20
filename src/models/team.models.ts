@@ -1,5 +1,10 @@
-import { model, Schema } from "mongoose";
-import { ITeam } from "./types/team.types";
+import { model, Schema, Document } from "mongoose";
+
+export interface ITeam extends Document {
+  name: string;
+  members: Schema.Types.ObjectId[]; // Referencia a los usuarios que son miembros del equipo
+  tasks: Schema.Types.ObjectId[]; // Referencia a las tareas asignadas al equipo
+}
 
 const TeamSchema = new Schema<ITeam>({
   name: {
@@ -7,14 +12,14 @@ const TeamSchema = new Schema<ITeam>({
     required: true,
   },
   members: [
-    // Relación muchos a muchos con User
+    // INFO: Relación muchos a muchos con User
     {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
   ],
   tasks: [
-    // Relación uno a muchos con Task
+    // INFO: Relación uno a muchos con Task
     {
       type: Schema.Types.ObjectId,
       ref: "Task",
