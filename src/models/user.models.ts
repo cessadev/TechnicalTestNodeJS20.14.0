@@ -1,10 +1,10 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
-export interface IUser extends Document {
+export interface IUser {
   name: string;
   email: string;
   password: string;
-  teams: Schema.Types.ObjectId[];
+  teams: Types.ObjectId[];
 }
 
 const UserSchema = new Schema<IUser>({

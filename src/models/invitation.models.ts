@@ -1,10 +1,10 @@
-import { model, Schema, Document } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
-export interface IInvitation extends Document {
+export interface IInvitation {
   email: string;
-  team: Schema.Types.ObjectId; // Referencia al equipo al que se invita
-  invitedBy: Schema.Types.ObjectId; // Referencia al usuario que envió la invitación
-  status: "Pendiente" | "Aceptada" | "Rechazada";
+  team: Types.ObjectId; // INFO: Referencia al equipo al que se invita
+  invitedBy: Types.ObjectId; // INFO: Referencia al usuario que envió la invitación
+  status: "Pending" | "Acepted" | "Rejected";
 }
 
 const InvitationSchema = new Schema<IInvitation>({
@@ -13,21 +13,21 @@ const InvitationSchema = new Schema<IInvitation>({
     required: true,
   },
   team: {
-    // Relación muchos a uno con Team
+    // INFO: Relación muchos a uno con Team
     type: Schema.Types.ObjectId,
     ref: "Team",
     required: true,
   }, 
   invitedBy: {
-    // Relación muchos a uno con User
+    // INFO: Relación muchos a uno con User
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
   }, 
   status: {
     type: String,
-    enum: ["Pendiente", "Aceptada", "Rechazada"],
-    default: "Pendiente"
+    enum: ["Pending", "Acepted", "Rejected"],
+    default: "Pending"
   }
 });
 

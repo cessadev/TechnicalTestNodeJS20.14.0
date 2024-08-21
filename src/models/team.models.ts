@@ -1,9 +1,9 @@
-import { model, Schema, Document } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
-export interface ITeam extends Document {
+export interface ITeam {
   name: string;
-  members: Schema.Types.ObjectId[]; // Referencia a los usuarios que son miembros del equipo
-  tasks: Schema.Types.ObjectId[]; // Referencia a las tareas asignadas al equipo
+  members: Types.ObjectId[]; // INFO: Referencia a los usuarios que son miembros del equipo
+  tasks: Types.ObjectId[]; // INFO: Referencia a las tareas asignadas al equipo
 }
 
 const TeamSchema = new Schema<ITeam>({

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { TeamModel } from "../models/team.models";
 import { UserModel } from "../models/user.models";
-import { Schema } from "mongoose";
+import mongoose from 'mongoose';
 
 export const getAllTeams = async (req: Request, res: Response) => {
   try {
@@ -37,7 +37,7 @@ export const inviteMember = async (req: Request, res: Response) => {
     }
 
     // Forzamos la conversión a `Schema.Types.ObjectId` a través de `unknown`
-    team.members.push(user._id as unknown as Schema.Types.ObjectId);
+    team.members.push(user._id as unknown as mongoose.Types.ObjectId);
     await team.save();
 
     res.json({ message: "Member invited successfully", team });

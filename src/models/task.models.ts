@@ -1,17 +1,17 @@
-import { model, Schema, Document } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
-export interface ITask extends Document {
+export interface ITask {
   title: string;
   description: string;
   status: "Pending" | "In Progress" | "Completed";
-  assignedTo: Schema.Types.ObjectId[]; // Referencia a los usuarios asignados a la tarea
-  team: Schema.Types.ObjectId; // Referencia al equipo al que pertenece la tarea
+  assignedTo: Types.ObjectId[]; // INFO: Referencia a los usuarios asignados a la tarea
+  team: Types.ObjectId; // INFO: Referencia al equipo al que pertenece la tarea
 }
 
 export interface ITaskRequest {
   title: string,
   description: string,
-  assignedTo: Schema.Types.ObjectId[];
+  assignedTo: Types.ObjectId[]; // INFO: Referencia a los usuarios asignados a la tarea
 }
 
 const TaskSchema = new Schema<ITask>({
@@ -28,14 +28,14 @@ const TaskSchema = new Schema<ITask>({
     default: "Pending"
   },
   assignedTo: [
-    // Relación muchos a muchos con User
+    // INFO: Relación muchos a muchos con User
     {
       type: Schema.Types.ObjectId,
       ref: "User"
     },
   ], 
   team: {
-    // Relación muchos a uno con Team
+    // INFO: Relación muchos a uno con Team
     type: Schema.Types.ObjectId,
     ref: "Team",
     required: true

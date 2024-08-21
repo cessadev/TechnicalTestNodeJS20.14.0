@@ -46,9 +46,8 @@ export const createTaskForTeam = async (teamId: string, taskData: ITaskRequest) 
   // Guardar la tarea
   const savedTask = await task.save();
 
-  // Guardar las actualizaciones del equipo (opcional si quieres registrar la tarea en el equipo)
-  const taskId = savedTask._id as ObjectId;
-  team.tasks.push(taskId);
+  // INFO: Guardar las actualizaciones del equipo (registrar la tarea en el equipo)
+  team.tasks.push(savedTask._id);
   await team.save();
 
   return savedTask;
