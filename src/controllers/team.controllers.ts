@@ -1,47 +1,33 @@
 import { Request, Response } from "express";
-import { TeamModel } from "../models/team.models";
-import { UserModel } from "../models/user.models";
-import mongoose from 'mongoose';
+import { getAllTeams, createTeam, inviteMemberToTeam } from "../services/team.services";
 
-export const getAllTeams = async (req: Request, res: Response) => {
+export const getAllTeamsController = async (req: Request, res: Response) => {
   try {
-    const teams = await TeamModel.find().populate('members', 'name email');
+    const teams = await getAllTeams();
     res.json(teams);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
-  }
-};
-
-export const createTeam = async (req: Request, res: Response) => {
-  try {
-    const { name, members } = req.body;
-    const team = new TeamModel({ name, members });
-
-    await team.save();
-    res.status(201).json({ message: "Team created successfully", team });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 };
 
-export const inviteMember = async (req: Request, res: Response) => {
+export const createTeamController = async (req: Request, res: Response) => {
+  try {
+    const { name, members } = req.body;
+    const response = await createTeam(name, members);
+    res.status(201).json(response);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+export const inviteMemberController = async (req: Request, res: Response) => {
   try {
     const { teamId } = req.params;
     const { userId } = req.body;
-
-    const team = await TeamModel.findById(teamId);
-    const user = await UserModel.findById(userId);
-
-    if (!team || !user) {
-      return res.status(404).json({ message: "Team or user not found" });
-    }
-
-    // Forzamos la conversión a `Schema.Types.ObjectId` a través de `unknown`
-    team.members.push(user._id as unknown as mongoose.Types.ObjectId);
-    await team.save();
-
-    res.json({ message: "Member invited successfully", team });
+    const response = await inviteMemberToTeam(teamId, userId);
+    res.json(response);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    const errorMessage = (error as Error).message;
+    res.status(400).json({ message: "Error inviting member", error: errorMessage });
   }
 };

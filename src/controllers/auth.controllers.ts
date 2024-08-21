@@ -1,45 +1,24 @@
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import { UserModel } from '../models/user.models';
+import { registerUser, loginUser } from '../services/auth.services';
 
-export const register = async (req: Request, res: Response) => {
+export const registerController = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
-
-    const userExists = await UserModel.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new UserModel({ name, email, password: hashedPassword });
-
-    await user.save();
-
-    res.status(201).json({ message: 'User registered successfully' });
+    const response = await registerUser(name, email, password);
+    res.status(201).json(response);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    const errorMessage = (error as Error).message;
+    res.status(400).json({ message: 'Error registering user', error: errorMessage });
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const loginController = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-
-    const user = await UserModel.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
-
-    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
-    res.json({ token });
+    const response = await loginUser(email, password);
+    res.json(response);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    const errorMessage = (error as Error).message;
+    res.status(400).json({ message: 'Error logging in', error: errorMessage });
   }
 };

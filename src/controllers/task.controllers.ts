@@ -1,18 +1,16 @@
 import { Request, Response } from 'express';
-import { TaskModel } from '../models/task.models';
-import { createTaskForTeam } from '../services/task.services';
+import { createTaskForTeam, getAllTasks, updateTaskStatus } from '../services/task.services';
 
-export const getAllTasks = async (req: Request, res: Response) => {
-  // TODO: Pasar lógica al servicio
+export const getAllTasksController = async (req: Request, res: Response) => {
   try {
-    const tasks = await TaskModel.find().populate('team assignedTo', 'name email');
+    const tasks = await getAllTasks();
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
 };
 
-export const createTask = async (req: Request, res: Response) => {
+export const createTaskController = async (req: Request, res: Response) => {
   try {
       const teamId = req.params.teamId;
       const taskData = req.body;
@@ -26,22 +24,15 @@ export const createTask = async (req: Request, res: Response) => {
   }
 };
 
-export const updateTask = async (req: Request, res: Response) => {
-  // TODO: Pasar lógica al servicio
+export const updateTaskController = async (req: Request, res: Response) => {
   try {
     const { taskId } = req.params;
     const { status } = req.body;
 
-    const task = await TaskModel.findById(taskId);
-    if (!task) {
-      return res.status(404).json({ message: 'Task not found' });
-    }
-
-    task.status = status;
-    await task.save();
-
+    const task = await updateTaskStatus(taskId, status);
     res.json({ message: 'Task updated successfully', task });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    const errorMessage = (error as Error).message;
+    res.status(400).json({ message: 'Error updating task', error: errorMessage });
   }
 };

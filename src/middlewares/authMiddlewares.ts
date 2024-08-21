@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import "dotenv/config";
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction } from 'express';
 import { CustomRequest, CustomResponse } from '../types/types';
 
 const authMiddleware = (req: CustomRequest, res: CustomResponse, next: NextFunction) => {
@@ -12,7 +12,7 @@ const authMiddleware = (req: CustomRequest, res: CustomResponse, next: NextFunct
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-    req.user = decoded; // Asigna la información del usuario al request
+    req.user = decoded; // INFO: Asigna la información del usuario al request
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Invalid token, authorization denied.' });

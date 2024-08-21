@@ -3,6 +3,11 @@ import { TaskModel } from "../models/task.models";
 import { TeamModel } from "../models/team.models";
 import { ITaskRequest } from "../models/task.models";
 
+// INFO: Obtener todas las tareas
+export const getAllTasks = async () => {
+  return await TaskModel.find().populate('team assignedTo', 'name email');
+};
+
 export const createTaskForTeam = async (teamId: string, taskData: ITaskRequest) => {
   const { title, description, assignedTo } = taskData;
 
@@ -51,4 +56,15 @@ export const createTaskForTeam = async (teamId: string, taskData: ITaskRequest) 
   await team.save();
 
   return savedTask;
+};
+
+// INFO: Actualizar estado de una tarea
+export const updateTaskStatus = async (taskId: string, status: 'Pending' | 'In Progress' | 'Completed') => {
+  const task = await TaskModel.findById(taskId);
+  if (!task) {
+    throw new Error('Task not found');
+  }
+
+  task.status = status;
+  return await task.save();
 };
