@@ -1,6 +1,6 @@
 import { UserModel } from "../models/user.models";
 import { TeamModel } from "../models/team.models";
-import mongoose, { ObjectId, Schema, Types } from "mongoose";
+import mongoose from "mongoose";
 
 export const getAllUsers = async () => {
   return await UserModel.find();

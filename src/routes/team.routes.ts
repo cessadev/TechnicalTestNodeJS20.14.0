@@ -9,6 +9,5 @@ const router = Router();
 
 router.get("/", authMiddleware, getAllTeamsController);
 router.post("/new", authMiddleware, createTeamController);
-/* router.post("/invite/:teamId", authMiddleware, inviteMemberController); */
 
 export default router;
