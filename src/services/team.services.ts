@@ -12,7 +12,7 @@ export const createTeam = async (name: string, members: mongoose.Types.ObjectId[
   return { message: "Team created successfully", team };
 };
 
-export const inviteMemberToTeam = async (teamId: string, userId: string) => {
+/* export const inviteMemberToTeam = async (teamId: string, userId: string) => {
   const team = await TeamModel.findById(teamId);
   const user = await UserModel.findById(userId);
 
@@ -29,4 +29,4 @@ export const inviteMemberToTeam = async (teamId: string, userId: string) => {
   await team.save();
 
   return { message: "Member invited successfully", team };
-};
+}; */

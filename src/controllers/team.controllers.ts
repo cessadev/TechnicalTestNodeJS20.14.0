@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
-import { getAllTeams, createTeam, inviteMemberToTeam } from "../services/team.services";
+import {
+  getAllTeams,
+  createTeam
+} from "../services/team.services";
 
 export const getAllTeamsController = async (req: Request, res: Response) => {
   try {
@@ -20,7 +23,7 @@ export const createTeamController = async (req: Request, res: Response) => {
   }
 };
 
-export const inviteMemberController = async (req: Request, res: Response) => {
+/* export const inviteMemberController = async (req: Request, res: Response) => {
   try {
     const { teamId } = req.params;
     const { userId } = req.body;
@@ -28,6 +31,8 @@ export const inviteMemberController = async (req: Request, res: Response) => {
     res.json(response);
   } catch (error) {
     const errorMessage = (error as Error).message;
-    res.status(400).json({ message: "Error inviting member", error: errorMessage });
+    res
+      .status(400)
+      .json({ message: "Error inviting member", error: errorMessage });
   }
-};
+}; */

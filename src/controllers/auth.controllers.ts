@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import { registerUser, loginUser } from '../services/auth.services';
+import { Request, Response } from "express";
+import { registerUser, loginUser } from "../services/auth.services";
 
 export const registerController = async (req: Request, res: Response) => {
   try {
@@ -8,7 +8,9 @@ export const registerController = async (req: Request, res: Response) => {
     res.status(201).json(response);
   } catch (error) {
     const errorMessage = (error as Error).message;
-    res.status(400).json({ message: 'Error registering user', error: errorMessage });
+    res
+      .status(400)
+      .json({ message: "Error registering user", error: errorMessage });
   }
 };
 
@@ -19,6 +21,6 @@ export const loginController = async (req: Request, res: Response) => {
     res.json(response);
   } catch (error) {
     const errorMessage = (error as Error).message;
-    res.status(400).json({ message: 'Error logging in', error: errorMessage });
+    res.status(400).json({ message: "Error logging in", error: errorMessage });
   }
 };
