@@ -1,4 +1,4 @@
-## Prueba Técnica para Desarrollador Back-end con Node.js y TypeScript
+## Prueba Técnica para Desarrollador Back-end Junior con Node.js y TypeScript
 ### Contexto:
 
 La empresa necesita un sistema de gestión de tareas (similar a un "to-do list"), pero enfocado en equipos de trabajo. El sistema permitirá que los usuarios se registren, creen equipos, asignen tareas a los miembros del equipo y gestionen el estado de estas tareas.
